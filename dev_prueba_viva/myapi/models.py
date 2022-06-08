@@ -7,6 +7,7 @@ from django_mysql.models import ListCharField
 
 # used to be useb for save info in database of project. Before redis server
 
+"""
 class TopStories(models.Model):
     id = models.PositiveIntegerField(primary_key=True)
     num = models.PositiveIntegerField()
@@ -21,11 +22,10 @@ class DetailStory(models.Model):
     )
     score = models.PositiveIntegerField()
     time = models.PositiveIntegerField()
-    #text = models.CharField(max_length=200)
     title = models.CharField(max_length=200)
     type = models.CharField(max_length=20)
     url = models.CharField(max_length=100)
-
+"""
 
 
 

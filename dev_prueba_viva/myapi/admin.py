@@ -3,5 +3,5 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register(TopStories)
-admin.site.register(DetailStory)
+#admin.site.register(TopStories)
+#admin.site.register(DetailStory)

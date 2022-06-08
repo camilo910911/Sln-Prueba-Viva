@@ -7,8 +7,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, renderer_classes
 import json
 import requests
-from myapi.models import TopStories, DetailStory
-from myapi.serializers import StorySerializer
+#from myapi.models import TopStories, DetailStory
+#from myapi.serializers import StorySerializer
 
 # CACHE
 from django.core.cache import cache
@@ -24,7 +24,6 @@ def get_index_list(request):
     if cache.get("cache_top_stories"):   #check cache
         top_stories = cache.get("cache_top_stories")
         print("top stories from cache")
-        #top_stories_serializer = StorySerializer(top_stories, many=True)
         return HttpResponse(json.dumps(top_stories), status=200)
     else:
         top_stories = get_top_stories()    # call API
@@ -41,18 +40,16 @@ def get_index_list(request):
 def get_story_by_index(request):
     # GET INDEX LIST.
     data = []
-    print(StorySerializer())
+    #print(StorySerializer())
     if request.query_params:   # get i and n params
         i = request.query_params['i']
         n = request.query_params['n']
 
         if cache.get("cache_top_stories"):  # check cache looking for list of top stories
             top_stories = cache.get("cache_top_stories")
-            #top_stories_serializer = StorySerializer(top_stories, many=True)
             print("top stories from cache")
         else:
-            top_stories = get_top_stories()  # get top storis from API an save then in cache for 3 minutes
-            #top_stories_serializer = StorySerializer(top_stories, many=True)
+            top_stories = get_top_stories()  # get top storis from API an save then in cache for 30 seconds
             cache.set("cache_top_stories", top_stories, 30)
             print("top stories from request")
 
@@ -78,7 +75,7 @@ def get_story_by_index(request):
         return HttpResponse('Error, id is required.', status=400)
 
 
-# checj redis server status. show keys data in cache
+# check redis server status. show keys data in cache
 @api_view(['GET'])
 def redis_healthcheck(request):
     return HttpResponse(json.dumps({"keys": cache.keys("*")}), status=200)
@@ -91,6 +88,7 @@ def from_cache(id):
         return ({'Titulo': json_object['title'], 'ID': json_object['id']})
     else:
         return None
+
 
 # get top stories index list
 def get_top_stories():
