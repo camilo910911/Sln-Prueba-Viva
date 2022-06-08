@@ -1,0 +1,32 @@
+version: "3.5"
+
+services:
+  redis:
+    image: redis:alpine
+    container_name: redis_serv
+    restart: always
+    networks:
+      - app-network
+
+  app-service:
+    image: app-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app-serv
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - . :/usr/src/app/
+    ports:
+      - 8000:8000
+    environment:
+      - REDIS_HOST=redis_serv
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

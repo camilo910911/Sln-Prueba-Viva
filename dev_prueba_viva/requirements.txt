@@ -1,0 +1,7 @@
+Django
+django-filter
+django-redis
+djangorestframework
+djangorestframework-dataclasses
+django_mysql
+requests
